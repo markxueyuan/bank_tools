@@ -123,7 +123,7 @@ eqC4 = I - (λb*A*R_W - R_M * M - Bb * P_B)
 
 
 
-# redundant
+# redundant variables
 
 eqR1 = P_B1 - P_B
 
@@ -157,12 +157,14 @@ s_Bank = solve((eqB1, eqB2, eqB3, eqB4, eqB5, eqB6, eqB7,
 
 
 
-s4 = solve((eq1, eq2, eq3, eq4, eq5, eq6, eq7, eq8, eq9,
+s4 = solve((eqF1,
+            eq1, eq2, eq3, eq4, eq5, eq6, eq7, eq8, eq9,
             eq10, eq11, eq12, eq13, eq14, eq15, eq16,
             eqB1, eqB2, eqB3, eqB4, eqB5, eqB6, eqB7,
             eqB8, eqB9, eqB10, eqB11, eqB12, eqB13,
             eqB14, eqB15, eqB16, eqB17, eqB18,
-            eqC1, eqC2, eqC3, eqC4),
+            eqC1, eqC2, eqC3, eqC4,
+            eqR1),
            R_E1, R_D1, R_B, P_B, R_E, R_D, R_W, R_I, R_L,
            D, E, A, L, D1, E1, A1, I,
            B_ha, B_hb, Bh, B_B, Ba, Bb,
