@@ -10,6 +10,11 @@ nonlinsolve([x*y - 1, 4*x**2 + y**2 - 5], [x, y])
 
 x = Symbol('x')
 y = Symbol('y')
+z = Symbol('z')
+
+e1 = z - x
+e2 = z - y
+ee = solve((e1, e2), z)
 
 solve((x**2 - y, y - x -3), x, y)
 
@@ -131,7 +136,7 @@ eqB18 = μ_Bb * (B_B - Bb)
 eqC1 = B_B + Bh + M - .5* B
 eqC2 = Ba + Bb + B_ha + B_hb
 eqC3 = Ma + Mb - 2*R_M*M
-eqC4 = λb*A*R_W - R_M * M - Bb * P_B
+eqC4 = I - (λb*A*R_W - R_M * M - Bb * P_B)
 
 
 
