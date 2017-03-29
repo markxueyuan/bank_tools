@@ -3,23 +3,6 @@ from sympy.solvers.solveset import nonlinsolve
 from sympy import Symbol
 from sympy.solvers import solve
 
-x, y, z = symbols('x, y, z', real=True)
-nonlinsolve([x*y - 1, 4*x**2 + y**2 - 5], [x, y])
-
-
-
-x = Symbol('x')
-y = Symbol('y')
-z = Symbol('z')
-
-e1 = z - x
-e2 = z - y
-ee = solve((e1, e2), z)
-
-solve((x**2 - y, y - x -3), x, y)
-
-
-
 
 ################## Variables ########################
 
@@ -72,6 +55,7 @@ P_B1 = Symbol('P_B1')
 B = Symbol('B')
 P = Symbol('P')
 r = Symbol('r')
+M_hat = Symbol('M_hat')
 
 # Firm
 
@@ -137,7 +121,7 @@ eqC1 = B_B + Bh + M - .5* B
 eqC2 = Ba + Bb + B_ha + B_hb
 eqC3 = Ma + Mb - 2*R_M*M
 eqC4 = I - (λb*A*R_W - R_M * M - Bb * P_B)
-
+eqC5 = M_hat - 2 * M
 
 
 
@@ -157,7 +141,8 @@ s_HH = solve((eq1, eq2, eq3, eq4, eq5, eq6, eq7, eq8, eq9
 s_HH = solve((eq1, eq2, eq3, eq4, eq5, eq6, eq7, eq8, eq9
             ,eq10, eq11, eq12, eq13)
            ,R_E1, R_D1, μ_E1, μ_Bh, R_B, P_B, R_E,
-           R_D, μ_λa_, μ_λb_, μ_λa, μ_λb, B_ha)
+           R_D, μ_λa_, μ_λb_, μ_λa, μ_λb, B_ha,
+             dict=True)
 
 
 
