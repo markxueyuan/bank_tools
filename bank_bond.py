@@ -55,7 +55,6 @@ P_B1 = Symbol('P_B1')
 B = Symbol('B')
 P = Symbol('P')
 r = Symbol('r')
-M_hat = Symbol('M_hat')
 
 # Firm
 
@@ -121,8 +120,12 @@ eqC1 = B_B + Bh + M - .5* B
 eqC2 = Ba + Bb + B_ha + B_hb
 eqC3 = Ma + Mb - 2*R_M*M
 eqC4 = I - (λb*A*R_W - R_M * M - Bb * P_B)
-eqC5 = M_hat - 2 * M
 
+
+
+# redundant
+
+eqR1 = P_B1 - P_B
 
 
 
