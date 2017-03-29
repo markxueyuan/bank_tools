@@ -104,7 +104,7 @@ eqB3 = L - A + M + B_B
 eqB4 = E - α * A * A / R_E
 eqB5 = E1 - α * A1 * (A + A1) / R_E1
 eqB6 = Ma - R_M * M - Ba * P_B + I + λa * A * R_W - A1
-eqB7 = Mb - R_M * M * Bb * P_B - I + λa * A * R_W
+eqB7 = Mb - R_M * M - Bb * P_B - I + λa * A * R_W
 
 # Bank, FOC
 
@@ -146,6 +146,12 @@ eqC4 = λb*A*R_W - R_M * M - Bb * P_B
 s_HH = solve((eq1, eq2, eq3, eq4, eq5, eq6, eq7, eq8, eq9
             ,eq10, eq11, eq12, eq13)
            ,R_E1, R_D1, μ_D1, μ_E1, μ_Bh, R_B, P_B, R_E,
+           R_D, μ_λa_, μ_λb_, μ_λa, μ_λb, B_ha)
+
+
+s_HH = solve((eq1, eq2, eq3, eq4, eq5, eq6, eq7, eq8, eq9
+            ,eq10, eq11, eq12, eq13)
+           ,R_E1, R_D1, μ_E1, μ_Bh, R_B, P_B, R_E,
            R_D, μ_λa_, μ_λb_, μ_λa, μ_λb, B_ha)
 
 
