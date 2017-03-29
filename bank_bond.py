@@ -63,7 +63,6 @@ R_L = Symbol('R_L')
 μ_Ba = Symbol('μ_Ba')
 μ_Bb = Symbol('μ_Bb')
 μ_B = Symbol('μ_B')
-R_M2 = Symbol('R_M2')
 P_B1 = Symbol('P_B1')
 B = Symbol('B')
 
@@ -108,7 +107,7 @@ eqB7 = Mb - R_M * M * Bb * P_B - I + λa * A * R_W
 # Bank, FOC
 
 eqB8 = R_I - R_M - Pf * I - μ_ma
-eqB9 = 2 * R_L - R_M2 - R_M * R_I - μ_ma * R_M
+eqB9 = 2 * R_L - R_M*R_M - R_M * R_I - μ_ma * R_M
 eqB10 = R_L - R_B - μ_B - μ_Ba - μ_Bb
 eqB11 = R_B - P_B * R_M - μ_ma * P_B + μ_Ba
 eqB12 = R_B - P_B * R_I + μ_Bb
