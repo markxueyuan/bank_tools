@@ -65,10 +65,12 @@ R_L = Symbol('R_L')
 μ_B = Symbol('μ_B')
 P_B1 = Symbol('P_B1')
 B = Symbol('B')
+P = Symbol('P')
+r = Symbol('r')
 
+# Firm
 
-
-
+eqF1 = P * r -R_L
 
 
 # HH, FOC
