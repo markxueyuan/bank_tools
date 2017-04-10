@@ -75,6 +75,19 @@ s1:
 
 [{R_E: R_D*θ, P_B: R_F0*R_W*λ/(R_D*λ - 2*R_D + 2*R_F0)}]
 
+s_1 = solve((eq3, eq4),R_E,P_B, dict=True)
+
+[{R_E: R_D*θ, P_B: R_F0*R_W*λ/(R_D*λ - 2*R_D + 2*R_F0)}]
+
+s_1 = solve((eq3, eq4),R_E, R_F0)
+
+ {R_E: R_D*θ, R_F0: P_B*R_D*(-λ + 2)/(2*P_B - R_W*λ)}
+
+s_1 = solve((eq3, eq4),R_E, R_F0, P_B, dict=True)
+
+[{R_E: R_D*θ, P_B: R_F0*R_W*λ/(R_D*λ - 2*R_D + 2*R_F0)}]
+
+
 s2:
 
 [{R_E: θ*(R_D*λ - R_D1*R_W*λ + 2*R_F0)/2, R_E1: R_D1*θ, P_B: R_F0/R_D1}]
