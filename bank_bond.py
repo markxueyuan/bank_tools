@@ -67,7 +67,7 @@ eq2 = R_B - P_B * R_D1 * (1 + μ_D1)
 eq3 = R_E / θ - R_D - .5 * (μ_λa_ + μ_λb_)
 eq4 = R_D - R_W * (R_D1 + μ_D1) - μ_λa / (D + E) + μ_λa_
 eq5 = R_D - R_W * R_D1 *(1 + μ_D1) - μ_λb / (D + E) + μ_λb_
-eq6 = (2- λa- λb)-2*R_B + R_W * R_D1* (λa + λb*(1+μ_D1)) \
+eq6 = (2- λa- λb)* R_D-2*R_B + R_W * R_D1* (λa + λb*(1+μ_D1)) \
     + μ_D1*R_W*λa - μ_Bh + μ_λa_*(1-λa) + μ_λb_*(1-λb)
 
 # HH, Slackness condition
@@ -92,7 +92,7 @@ eqB3 = L - A + M + B_B
 eqB4 = E - α * A * A / R_E
 eqB5 = E1 - α * A1 * (A + A1) / R_E1
 eqB6 = Ma - R_M * M - Ba * P_B + I + λa * A * R_W - A1
-eqB7 = Mb - R_M * M - Bb * P_B - I + λa * A * R_W
+eqB7 = Mb - R_M * M - Bb * P_B - I + λb * A * R_W
 
 # Bank, FOC
 
