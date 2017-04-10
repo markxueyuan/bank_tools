@@ -71,8 +71,13 @@ eq4 = -2*R_F0*θ + R_D*θ + (1-λ)*R_D*θ + R_F0 * θ * λ * R_W / P_B
 
 
 """
+s1:
 
+[{R_E: R_D*θ, P_B: R_F0*R_W*λ/(R_D*λ - 2*R_D + 2*R_F0)}]
 
+s2:
+
+[{R_E: θ*(R_D*λ - R_D1*R_W*λ + 2*R_F0)/2, R_E1: R_D1*θ, P_B: R_F0/R_D1}]
 
 """
 
@@ -80,82 +85,3 @@ s_1 = solve((eq3, eq4),R_E, R_F0, λ, R_W, P_B)
 
 s_2 = solve((eq1, eq2, eq3),R_E, R_F0, R_E1, P_B)
 
-
-
-
-
-eq1 = R_E1 / θ - R_D1 - μ_D1 + μ_E1
-eq2 = R_B - P_B * R_D1 * (1 + μ_D1)
-eq3 = R_E / θ - R_D - .5 * (μ_λa_ + μ_λb_)
-eq4 = R_D - R_W * (R_D1 + μ_D1) - μ_λa / (D + E) + μ_λa_
-eq5 = R_D - R_W * R_D1 *(1 + μ_D1) - μ_λb / (D + E) + μ_λb_
-eq6 = (2- λa- λb)* R_D-2*R_B + R_W * R_D1* (λa + λb*(1+μ_D1)) \
-    + μ_D1*R_W*λa - μ_Bh + μ_λa_*(1-λa) + μ_λb_*(1-λb)
-
-# HH, Slackness condition
-eq7 = μ_E1 * E1
-eq8 = μ_Bh * (W - (D+E))
-eq9 = μ_λa * λa
-eq10 = μ_λb * (λb - λ)
-eq11 = μ_D1 * (λa * (D + E) * R_W + B_ha*P_B-E1)
-eq12 = μ_λa_*(D-λa*(D+E))
-eq13 = μ_λb_*(D-λb*(D+E))
-
-# HH, Definitions
-eq14 = Bh - W + D + E
-eq15 = B_hb * P_B + λb * (D + E)*R_W
-eq16 = B_ha * P_B -(D1+E1) + λa*(D+E)*R_W
-
-# Bank, Definitions
-
-eqB1 = D - A + E
-eqB2 = D1 - A1 + E1
-eqB3 = L - A + M + B_B
-eqB4 = E - α * A * A / R_E
-eqB5 = E1 - α * A1 * (A + A1) / R_E1
-eqB6 = Ma - R_M * M - Ba * P_B + I + λa * A * R_W - A1
-eqB7 = Mb - R_M * M - Bb * P_B - I + λb * A * R_W
-
-# Bank, FOC
-
-eqB8 = R_I - R_M - Pf * I - μ_ma
-eqB9 = 2 * R_L - R_M*R_M - R_M * R_I - μ_ma * R_M
-eqB10 = R_L - R_B - μ_B - μ_Ba - μ_Bb
-eqB11 = R_B - P_B * R_M - μ_ma * P_B + μ_Ba
-eqB12 = R_B - P_B * R_I + μ_Bb
-eqB13 = R_D1 - R_M + (θ-1)/θ * α * (A + 2*A1) - μ_ma
-eqB14 = (2-λa-λb)*R_D - 2*R_L + R_W*(λa*R_M + λb*R_I) \
-        + (θ-1)/θ * α * (4*A + A1) + μ_ma * λa * R_W
-
-
-# Bank, slackness conditions
-
-eqB15 = μ_ma * (R_M * M + Ba * P_B1 + A1 - I - λa*A*R_W)
-eqB16 = μ_B * B
-eqB17 = μ_Ba * (B_B - Ba)
-eqB18 = μ_Bb * (B_B - Bb)
-
-
-# market clearing conditions
-
-eqC1 = B_B + Bh + M - .5* B
-eqC2 = Ba + Bb + B_ha + B_hb
-eqC3 = Ma + Mb - 2*R_M*M
-eqC4 = I - (λb*A*R_W - R_M * M - Bb * P_B)
-
-
-
-# redundant variables
-
-eqR1 = P_B1 - P_B
-
-eqC1 = B_B + Bh + M - .5* B
-eqC2 = Ba + Bb + B_ha + B_hb
-eqC3 = Ma + Mb - 2*R_M*M
-eqC4 = I - (λb*A*R_W - R_M * M - Bb * P_B)
-
-
-
-# redundant variables
-
-eqR1 = P_B1 - P_B
