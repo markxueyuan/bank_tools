@@ -87,6 +87,14 @@ s_1 = solve((eq3, eq4),R_E, R_F0, P_B, dict=True)
 
 [{R_E: R_D*θ, P_B: R_F0*R_W*λ/(R_D*λ - 2*R_D + 2*R_F0)}]
 
+s_1 = solve((eq3, eq4),R_E, R_F0, P_B, R_D, dict=True)
+[{R_D: R_E/θ, P_B: R_F0*R_W*θ*λ/(R_E*λ - 2*R_E + 2*R_F0*θ)}]
+
+s_1 = solve((eq3, eq4), R_D, R_E, R_F0, P_B,  dict=True)
+[{R_D: R_E/θ, P_B: R_F0*R_W*θ*λ/(R_E*λ - 2*R_E + 2*R_F0*θ)}]
+
+s_1 = solve((eq3, eq4))
+[{R_D: R_E/θ, P_B: R_F0*R_W*θ*λ/(R_E*λ - 2*R_E + 2*R_F0*θ)}, {R_E: 0, θ: 0}]
 
 s2:
 
@@ -97,4 +105,6 @@ s2:
 s_1 = solve((eq3, eq4),R_E, R_F0, λ, R_W, P_B)
 
 s_2 = solve((eq1, eq2, eq3),R_E, R_F0, R_E1, P_B)
+
+s_1 = solve((eq3, eq4))
 
