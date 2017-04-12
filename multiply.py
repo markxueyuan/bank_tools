@@ -116,6 +116,8 @@ R_L = Symbol('R_L')
 P_B1 = Symbol('P_B1')
 B = Symbol('B')
 P = Symbol('P')
+e0 = Symbol('e0')
+e1 = Symbol('e1')
 
 
 # symbols as undefined function
@@ -128,8 +130,8 @@ r = symbols('r', cls=Function)
 # Firm, FOC
 feq1 = P - R_L/r(L)
 
-
-# Mutual Fund, FOC
+E1
+# Money Fund, FOC
 
 meq1 = R_B - R_F0
 
@@ -145,14 +147,16 @@ eq4 = -2*R_F0*θ + R_D*θ + (1-λ)*R_D*θ + R_F0 * θ * λ * R_W / P_B
 
 beq1 = R_I - R_M - P*f(I)
 beq2 = -2*R_L + R_M**2 + R_M*R_I
-beq3 = R_M - R_D1(1-α*(A+A1)+A1*α)-R_E1*(α*(A+A1)+A1*α)/R_E1
+beq3 = R_M - R_D1*(1-(α*(A+A1)+A1*α)/R_E1)-R_E1*(α*(A+A1)+A1*α)/R_E1
 
 
-e0 = 2*α*A
-e1 = (1+2*λ*R_W)*α*A
+s_e0 = 2*α*A
+s_e1 = (1+2*λ*R_W)*α*A
 
-beq4 = 2*R_L - 2*R_E*e0/R_E - R_D*(1-e0/R_E)- R_D1*(A1*α/R_E1) \
+beq4 = 2*R_L - 2*R_E*s_e0/R_E - R_D*(1-s_e0/R_E)- R_D1*(A1*α/R_E1) \
        - R_E1*(A1*α/R_E1)
+
+beq5 = A1 - λ*R_W*A
 
 
 
@@ -341,9 +345,31 @@ def main():
     integrate(f(I), (I, 0, I)).diff(I).doit()
     "f(I)"
 
+    ############################# April 12th Experiments ############
 
+    s_R_L = solve(beq2, R_L)[0].subs(R_I,s_R_I)
 
+    """
+    R_M⋅(P⋅f(I) + 2⋅R_M)
+    ────────────────────
+            2
 
+    """
+
+    s_R_D1 = solve(beq3, R_D1)[0]
+
+    """
+    R_E1⋅(A⋅α + 2⋅A₁⋅α - R_M)
+    ─────────────────────────
+        A⋅α + 2⋅A₁⋅α - R_E1
+
+    """
+
+    s_A1 = solve(beq5, A1)[0]
+    s2_R_D1 = s_R_D1.subs(A1,s_A1).subs(s_e1,e1)
+
+    sss = solve((meq1,feq1,eq1,eq2,eq3,eq4,beq1,beq2,beq3,beq4,beq5)
+                ,R_D1,R_E1,R_D,R_E,P_B,R_F0,P,R_L,R_I,A,A1)
 
 if __name__ == "__main__":
     main()
