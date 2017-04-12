@@ -1,7 +1,10 @@
 from sympy.solvers.solveset import nonlinsolve
-from sympy import Symbol
-from sympy import simplify
+from sympy import Symbol, symbols, init_printing,\
+    simplify, integrate, latex
 from sympy.solvers import solve
+
+# generate prettier output
+init_printing()
 
 
 ################## Variables ########################
@@ -99,6 +102,12 @@ s_1 = solve((eq3, eq4))
 s2:
 
 [{R_E: θ*(R_D*λ - R_D1*R_W*λ + 2*R_F0)/2, R_E1: R_D1*θ, P_B: R_F0/R_D1}]
+
+⌠
+⎮  a
+⎮ a  da
+⌡
+
 
 """
 
