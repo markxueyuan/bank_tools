@@ -1,7 +1,8 @@
 from sympy.solvers.solveset import nonlinsolve
 from sympy import Symbol, symbols, init_printing,\
     simplify, integrate, latex, solve_poly_system,\
-    Function, Derivative
+    Function, Derivative, apart, cancel, expand, collect,\
+    Integral
 
 from sympy.solvers import solve, nonlinsolve
 
@@ -10,6 +11,8 @@ init_printing()
 
 
 ################## Variables ########################
+
+# symbols defined with assumptions
 
 θ = Symbol('θ', real=True, positive=True)
 R_E1 = Symbol('R_E1', real=True)
@@ -62,6 +65,7 @@ B = Symbol('B', real=True)
 P = Symbol('P', real=True)
 r = Symbol('r', real=True)
 
+# symbols with default assumptions (complex field)
 
 θ = Symbol('θ')
 R_E1 = Symbol('R_E1')
@@ -114,10 +118,18 @@ B = Symbol('B')
 P = Symbol('P')
 r = Symbol('r')
 
+# symbols as undefined function
 
-# Firm
+f = symbols("f", cls=Function)
 
-eqF1 = P * r -R_L
+
+##################### Equations #######################
+
+
+
+# Mutual Fund, FOC
+
+meq1 = R_B - R_F0
 
 
 # HH, FOC
@@ -127,7 +139,9 @@ eq2 = R_E1 - R_D1 * θ
 eq3 = -2*R_F0*θ + 2*R_E - λ*R_D*θ + R_F0 * θ * λ * R_W / P_B
 eq4 = -2*R_F0*θ + R_D*θ + (1-λ)*R_D*θ + R_F0 * θ * λ * R_W / P_B
 
+## Bank, FOC
 
+beq1 = R_I - R_M - P*f(I)
 
 
 def main():
@@ -137,80 +151,73 @@ def main():
     s_1 = solve((eq3, eq4), R_E, R_F0, λ, R_W, P_B)
 
     """
-
     ⎡⎧           R_F0⋅R_W⋅λ                  ⎫⎤
     ⎢⎨P_B: ──────────────────────, R_E: R_D⋅θ⎬⎥
     ⎣⎩     R_D⋅λ - 2⋅R_D + 2⋅R_F0            ⎭⎦
+    """
+
+    s_1 = solve((eq3, eq4), R_E)
 
     """
+    ⎧     θ⋅(P_B⋅R_D⋅λ + 2⋅P_B⋅R_F0 - R_F0⋅R_W⋅λ)⎫
+    ⎨R_E: ───────────────────────────────────────⎬
+    ⎩                      2⋅P_B                 ⎭
+    """
+
     s_1 = solve((eq3, eq4), R_E, P_B, dict=True)
 
     """
-
     ⎡⎧           R_F0⋅R_W⋅λ                  ⎫⎤
     ⎢⎨P_B: ──────────────────────, R_E: R_D⋅θ⎬⎥
     ⎣⎩     R_D⋅λ - 2⋅R_D + 2⋅R_F0            ⎭⎦
-
     """
 
     s_1 = solve((eq3, eq4), R_E, R_F0)
 
     """
-
     ⎧                  P_B⋅R_D⋅(-λ + 2)⎫
     ⎨R_E: R_D⋅θ, R_F0: ────────────────⎬
     ⎩                   2⋅P_B - R_W⋅λ  ⎭
-
     """
 
     s_1 = solve((eq3, eq4), R_E, R_F0, P_B, dict=True)
 
     """
-
     ⎡⎧           R_F0⋅R_W⋅λ                  ⎫⎤
     ⎢⎨P_B: ──────────────────────, R_E: R_D⋅θ⎬⎥
     ⎣⎩     R_D⋅λ - 2⋅R_D + 2⋅R_F0            ⎭⎦
-
     """
 
     s_1 = solve((eq3, eq4), R_E, R_F0, P_B, R_D, dict=True)
 
     """
-
     ⎡⎧           R_F0⋅R_W⋅θ⋅λ             R_E⎫⎤
     ⎢⎨P_B: ────────────────────────, R_D: ───⎬⎥
     ⎣⎩     R_E⋅λ - 2⋅R_E + 2⋅R_F0⋅θ        θ ⎭⎦
-
     """
 
     s_1 = solve((eq3, eq4), R_D, R_E, R_F0, P_B, dict=True)
 
     """
-
     ⎡⎧           R_F0⋅R_W⋅θ⋅λ             R_E⎫⎤
     ⎢⎨P_B: ────────────────────────, R_D: ───⎬⎥
     ⎣⎩     R_E⋅λ - 2⋅R_E + 2⋅R_F0⋅θ        θ ⎭⎦
-
     """
 
     s_1 = solve((eq3, eq4))
 
     """
-
     ⎡⎧           R_F0⋅R_W⋅θ⋅λ             R_E⎫                ⎤
     ⎢⎨P_B: ────────────────────────, R_D: ───⎬, {R_E: 0, θ: 0}⎥
     ⎣⎩     R_E⋅λ - 2⋅R_E + 2⋅R_F0⋅θ        θ ⎭                ⎦
-
     """
 
     s_2 = solve((eq1, eq2, eq3), R_E, R_F0, R_E1, P_B)
 
     """
-
     ⎡⎧     R_F0       θ⋅(R_D⋅λ - R_D1⋅R_W⋅λ + 2⋅R_F0)              ⎫⎤
     ⎢⎨P_B: ────, R_E: ───────────────────────────────, R_E1: R_D1⋅θ⎬⎥
     ⎣⎩     R_D1                      2                             ⎭⎦
-
     """
 
 
@@ -226,17 +233,14 @@ def main():
     ⎡⎛       -P_B⋅R_D⋅(λ - 2) ⎞⎤
     ⎢⎜R_D⋅θ, ─────────────────⎟⎥
     ⎣⎝         2⋅P_B - R_W⋅λ  ⎠⎦
-
     """
 
     s_1 = nonlinsolve([eq3, eq4], R_E, P_B)
 
     """
-
     ⎧⎛             R_F0⋅R_W⋅λ      ⎞⎫
     ⎨⎜R_D⋅θ, ──────────────────────⎟⎬
     ⎩⎝       R_D⋅λ - 2⋅R_D + 2⋅R_F0⎠⎭
-
     """
 
     # undefined function and its derivative
@@ -246,17 +250,16 @@ def main():
     f(R_E).diff(R_E)
 
     """
-
      d
     ────(f(R_E))
     dR_E
-
     """
 
 
-# taking derivative of defined function
+    # taking derivative of defined function
 
     s_1 = solve((eq3, eq4), dict=True)
+
     s_1[0][P_B].diff(R_E)
 
     """
@@ -264,8 +267,84 @@ def main():
     ───────────────────────────
                               2
     (R_E⋅λ - 2⋅R_E + 2⋅R_F0⋅θ)
+    """
+
+
+    # mimic man's solution
+
+        #Household
+
+    s_R_F0 = solve(eq1,R_F0)[0]
+    "P_B⋅R_D1"
+    s_R_E1 = solve(eq2, R_E1)[0]
+    "R_D1⋅θ"
+    s_R_E = solve((eq3, eq4), R_E, P_B, dict=True)[0][R_E]
+    "R_D⋅θ"
+    s_P_B = simplify(
+        solve(eq3.subs(s_R_E, R_E).subs(R_F0, s_R_F0)
+              .subs(s_R_E1, R_E1), P_B)[0]
+            .subs(R_E, s_R_E).subs(R_E1, s_R_E1))
+
+    """
+    -R_D⋅λ + 2⋅R_D + R_D1⋅R_W⋅λ
+    ───────────────────────────
+               2⋅R_D1
+    """
+    s2_R_F0 = collect(s_R_F0.subs(P_B,s_P_B), R_D)
+    """
+        ⎛  λ    ⎞   R_D1⋅R_W⋅λ
+    R_D⋅⎜- ─ + 1⎟ + ──────────
+        ⎝  2    ⎠       2
+    """
+
+        # Mutual Fund
+
+    s_R_B = solve(meq1, R_B)[0]
+    "R_F0"
+    s2_R_B = s_R_B.subs(R_F0,s2_R_F0)
+    """
+        ⎛  λ    ⎞   R_D1⋅R_W⋅λ
+    R_D⋅⎜- ─ + 1⎟ + ──────────
+        ⎝  2    ⎠       2
 
     """
 
+        # Bank
+
+
+    s_R_I = solve(beq1, R_I)[0]
+    "P⋅f(I) + R_M"
+
+
+    integrate(f(I), (I, 0, I))
+
+    """
+    I
+    ⌠
+    ⎮ f(I) dI
+    ⌡
+    0
+    """
+    integrate(f(I), (I, 0, I)).diff(I).doit()
+    "f(I)"
+
+
+
+
+
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
