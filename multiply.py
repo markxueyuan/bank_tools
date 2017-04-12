@@ -116,15 +116,17 @@ R_L = Symbol('R_L')
 P_B1 = Symbol('P_B1')
 B = Symbol('B')
 P = Symbol('P')
-r = Symbol('r')
+
 
 # symbols as undefined function
 
 f = symbols("f", cls=Function)
-
+r = symbols('r', cls=Function)
 
 ##################### Equations #######################
 
+# Firm, FOC
+feq1 = P - R_L/r(L)
 
 
 # Mutual Fund, FOC
@@ -142,6 +144,17 @@ eq4 = -2*R_F0*θ + R_D*θ + (1-λ)*R_D*θ + R_F0 * θ * λ * R_W / P_B
 ## Bank, FOC
 
 beq1 = R_I - R_M - P*f(I)
+beq2 = -2*R_L + R_M**2 + R_M*R_I
+beq3 = R_M - R_D1(1-α*(A+A1)+A1*α)-R_E1*(α*(A+A1)+A1*α)/R_E1
+
+
+e0 = 2*α*A
+e1 = (1+2*λ*R_W)*α*A
+
+beq4 = 2*R_L - 2*R_E*e0/R_E - R_D*(1-e0/R_E)- R_D1*(A1*α/R_E1) \
+       - R_E1*(A1*α/R_E1)
+
+
 
 
 def main():
