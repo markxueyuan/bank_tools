@@ -1,13 +1,67 @@
 from sympy.solvers.solveset import nonlinsolve
 from sympy import Symbol, symbols, init_printing,\
-    simplify, integrate, latex
-from sympy.solvers import solve
+    simplify, integrate, latex, solve_poly_system,\
+    Function, Derivative
+
+from sympy.solvers import solve, nonlinsolve
 
 # generate prettier output
 init_printing()
 
 
 ################## Variables ########################
+
+θ = Symbol('θ', real=True, positive=True)
+R_E1 = Symbol('R_E1', real=True)
+R_D1 = Symbol('R_D1', real=True)
+μ_D1 = Symbol('μ_D1', real=True)
+μ_E1 = Symbol('μ_E1', real=True)
+μ_Bh = Symbol('μ_Bh', real=True)
+R_B = Symbol('R_B', real=True)
+P_B = Symbol('P_B', real=True)
+R_E = Symbol('R_E', real=True)
+R_D = Symbol('R_D', real=True)
+R_W = Symbol('R_W', real=True)
+R_F0 = Symbol('R_F0', real=True)
+μ_λa_ = Symbol('μ_λa_', real=True)
+μ_λb_ = Symbol('μ_λb_', real=True)
+μ_λa = Symbol('μ_λa', real=True)
+μ_λb = Symbol('μ_λb', real=True)
+D = Symbol('D', real=True)
+E = Symbol('E', real=True)
+A = Symbol('A', real=True)
+W = Symbol('W', real=True)
+L = Symbol('L', real=True)
+M = Symbol('M', real=True)
+D1 = Symbol('D1', real=True)
+E1 = Symbol('E1', real=True)
+A1 = Symbol('A1', real=True)
+B_ha = Symbol('B_ha', real=True)
+B_hb = Symbol('B_hb', real=True)
+Bh = Symbol('Bh', real=True)
+B_B = Symbol("B_B", real=True)
+λa = Symbol('λa', real=True)
+λb = Symbol('λb', real=True)
+λ = Symbol('λ', real=True)
+α = Symbol('α', real=True)
+Ma = Symbol('Ma', real=True)
+Mb = Symbol('Mb', real=True)
+R_M = Symbol('R_M', real=True)
+Ba = Symbol('Ba', real=True)
+Bb = Symbol('Bb', real=True)
+I = Symbol('I', real=True)
+Pf = Symbol('Pf', real=True)
+R_I = Symbol('R_I', real=True)
+R_L = Symbol('R_L', real=True)
+μ_ma = Symbol('μ_ma', real=True)
+μ_Ba = Symbol('μ_Ba', real=True)
+μ_Bb = Symbol('μ_Bb', real=True)
+μ_B = Symbol('μ_B', real=True)
+P_B1 = Symbol('P_B1', real=True)
+B = Symbol('B', real=True)
+P = Symbol('P', real=True)
+r = Symbol('r', real=True)
+
 
 θ = Symbol('θ')
 R_E1 = Symbol('R_E1')
@@ -73,18 +127,27 @@ eq3 = -2*R_F0*θ + 2*R_E - λ*R_D*θ + R_F0 * θ * λ * R_W / P_B
 eq4 = -2*R_F0*θ + R_D*θ + (1-λ)*R_D*θ + R_F0 * θ * λ * R_W / P_B
 
 
+
+
+
 """
-s1:
 
-[{R_E: R_D*θ, P_B: R_F0*R_W*λ/(R_D*λ - 2*R_D + 2*R_F0)}]
+April 10 th experiment:
+#############################
 
-s_1 = solve((eq3, eq4),R_E,P_B, dict=True)
 
-[{R_E: R_D*θ, P_B: R_F0*R_W*λ/(R_D*λ - 2*R_D + 2*R_F0)}]
 
-s_1 = solve((eq3, eq4),R_E, R_F0)
 
- {R_E: R_D*θ, R_F0: P_B*R_D*(-λ + 2)/(2*P_B - R_W*λ)}
+
+ # taking partial derivatives:
+
+ s_1[0][P_B].diff(R_E)
+
+
+   R_F0⋅R_W⋅θ⋅λ⋅(-λ + 2)
+───────────────────────────
+                          2
+(R_E⋅λ - 2⋅R_E + 2⋅R_F0⋅θ)
 
 s_1 = solve((eq3, eq4),R_E, R_F0, P_B, dict=True)
 
@@ -99,21 +162,96 @@ s_1 = solve((eq3, eq4), R_D, R_E, R_F0, P_B,  dict=True)
 s_1 = solve((eq3, eq4))
 [{R_D: R_E/θ, P_B: R_F0*R_W*θ*λ/(R_E*λ - 2*R_E + 2*R_F0*θ)}, {R_E: 0, θ: 0}]
 
-s2:
+s_2 = solve((eq1, eq2, eq3), R_E, R_F0, R_E1, P_B)
 
 [{R_E: θ*(R_D*λ - R_D1*R_W*λ + 2*R_F0)/2, R_E1: R_D1*θ, P_B: R_F0/R_D1}]
 
-⌠
-⎮  a
-⎮ a  da
-⌡
+
+
+
+s_1 = nonlinsolve([eq3, eq4], R_E, P_B)
+
+⎧⎛             R_F0⋅R_W⋅λ      ⎞⎫
+⎨⎜R_D⋅θ, ──────────────────────⎟⎬
+⎩⎝       R_D⋅λ - 2⋅R_D + 2⋅R_F0⎠⎭
+
+# step by step solution
+
+s_R_F0 = solve(eq1,R_F0)[0]
+s_R_E1 = solve((eq2),R_E1)[0]
+s_1 = solve((eq3, eq4),R_E, R_F0)
+solve(eq3.subs(R_F0,s_R_F0).subs(s_R_E1, R_E1),P_B)[0]
 
 
 """
 
-s_1 = solve((eq3, eq4),R_E, R_F0, λ, R_W, P_B)
+def main():
 
-s_2 = solve((eq1, eq2, eq3),R_E, R_F0, R_E1, P_B)
+    ############ April 10th Experiments ############
 
-s_1 = solve((eq3, eq4))
+    s_1 = solve((eq3, eq4), R_E, R_F0, λ, R_W, P_B)
 
+    """
+
+    ⎡⎧           R_F0⋅R_W⋅λ                  ⎫⎤
+    ⎢⎨P_B: ──────────────────────, R_E: R_D⋅θ⎬⎥
+    ⎣⎩     R_D⋅λ - 2⋅R_D + 2⋅R_F0            ⎭⎦
+
+    """
+    s_1 = solve((eq3, eq4), R_E, P_B, dict=True)
+
+    """
+
+    ⎡⎧           R_F0⋅R_W⋅λ                  ⎫⎤
+    ⎢⎨P_B: ──────────────────────, R_E: R_D⋅θ⎬⎥
+    ⎣⎩     R_D⋅λ - 2⋅R_D + 2⋅R_F0            ⎭⎦
+
+    """
+
+    s_1 = solve((eq3, eq4), R_E, R_F0)
+
+    """
+
+    ⎧                  P_B⋅R_D⋅(-λ + 2)⎫
+    ⎨R_E: R_D⋅θ, R_F0: ────────────────⎬
+    ⎩                   2⋅P_B - R_W⋅λ  ⎭
+
+    """
+
+    
+
+    s_2 = solve((eq1, eq2, eq3), R_E, R_F0, R_E1, P_B)
+
+    s_1 = solve((eq3, eq4), dict=True)
+    s_1[0][P_B].diff(R_E)
+
+    ############ April 11th Experiments ############
+
+    ## other solvers
+
+    s_1 = solve_poly_system([eq3, eq4], R_E, R_F0)
+
+    """
+    ⎡⎛       -P_B⋅R_D⋅(λ - 2) ⎞⎤
+    ⎢⎜R_D⋅θ, ─────────────────⎟⎥
+    ⎣⎝         2⋅P_B - R_W⋅λ  ⎠⎦
+
+    """
+
+    s_1 = nonlinsolve([eq3, eq4], R_E, P_B)
+
+    """
+
+    ⎧⎛             R_F0⋅R_W⋅λ      ⎞⎫
+    ⎨⎜R_D⋅θ, ──────────────────────⎟⎬
+    ⎩⎝       R_D⋅λ - 2⋅R_D + 2⋅R_F0⎠⎭
+
+    """
+
+    # undefined function and its derivative
+
+    f = symbols("f", cls=Function)
+    f(R_E).diff(R_E)
+
+if __name__ == "__main__":
+    main()
