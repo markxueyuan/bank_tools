@@ -147,7 +147,7 @@ eq4 = -2*R_F0*θ + R_D*θ + (1-λ)*R_D*θ + R_F0 * θ * λ * R_W / P_B
 ## Bank, FOC
 
 beq1 = R_I - R_M - P*f(I)
-beq2 = -2*R_L + R_M**2 + R_M*R_I
+beq2 = -2*R_L + R_M*R_M + R_M*R_I
 beq3 = R_M - R_D1*(1-(α*(A+A1)+A1*α)/R_E1)-R_E1*(α*(A+A1)+A1*α)/R_E1
 
 
@@ -360,6 +360,7 @@ def main():
     s_R_D1 = solve(beq3, R_D1)[0]
 
     """
+
     R_E1⋅(A⋅α + 2⋅A₁⋅α - R_M)
     ─────────────────────────
         A⋅α + 2⋅A₁⋅α - R_E1
@@ -396,6 +397,10 @@ def main():
 
     ss7 = solve((feq1, eq1, eq2, eq3, eq4, beq1, beq2, beq3, beq4)
                 , R_D1, R_E1, R_D, R_E, P_B, R_F0, P, R_L, R_I
+                , dict=True)
+
+    ss8 = solve((meq1, feq1, eq1, eq2, eq3, eq4, beq1, beq2, beq3, beq4, beq5)
+                , P, R_L, R_I, R_D1, R_E1, R_D, R_E, P_B, R_F0, A, A1
                 , dict=True)
 
 
