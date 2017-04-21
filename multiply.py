@@ -391,6 +391,10 @@ def main():
                 , R_D1, R_E1, R_D, R_E, P_B, R_F0, P, R_L, R_I, R_B
                 , dict=True)
 
+    ss5_1 = solve((meq1, feq1, eq1, eq2, eq3, eq4, beq11, beq2, beq3, beq4)
+                  , R_D1, R_E1, R_D, R_E, P_B, R_F0, P, R_L, R_I, R_B
+                  , dict=True)
+
     ss6 = solve((feq1, eq1, eq2, eq3, eq4, beq1, beq2, beq3, beq4, beq5)
                 , R_D1, R_E1, R_D, R_E, P_B, R_F0, P, R_L, R_I
                 , dict=True)
@@ -402,9 +406,12 @@ def main():
     ss8 = solve((meq1, feq1, eq1, eq2, eq3, eq4, beq1, beq2, beq3, beq4, beq5)
                 , P, R_L, R_I, R_D1, R_E1, R_D, R_E, P_B, R_F0, A, A1
                 , dict=True)
-    ss5_new = solve((meq1, feq1, eq1, eq2, eq3, eq4, beq11, beq2, beq3, beq4)
-                , R_D1, R_E1, R_D, R_E, P_B, R_F0, P, R_L, R_I, R_B
-                , dict=True)
+
+
+
+
+
+
 
 
 
