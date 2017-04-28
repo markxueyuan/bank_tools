@@ -1015,6 +1015,17 @@ ss = solve((eq2, beq3)
                 ⎭⎦
 
 
+ss = solve((eq3, eq4)
+                    , R_E, R_F0
+                    , dict=True)
+
+
+⎡⎧                  P_B⋅R_D⋅(-λ + 2)⎫⎤
+⎢⎨R_E: R_D⋅θ, R_F0: ────────────────⎬⎥
+⎣⎩                   2⋅P_B - R_W⋅λ  ⎭⎦
+
+
+
 
 
 """
