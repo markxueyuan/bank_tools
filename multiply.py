@@ -144,7 +144,7 @@ r = symbols('r', cls=Function)
 
 """
 
-# Firm obj =            L
+# Firm obj =
 
            L
            ⌠
@@ -164,7 +164,7 @@ Firm.diff(L).doit()
 
 """
 
-# MMF obj =            L
+# MMF obj =
 
 B_H⋅R_B - B_H⋅R_F0
 
@@ -231,7 +231,6 @@ Bank
 
 
 to be done
-
 
 """
 
