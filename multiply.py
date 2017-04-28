@@ -1037,6 +1037,29 @@ ss = solve((eq1, eq4)
 ⎣⎩                2⋅R_D1                      2               2     ⎭⎦
 
 
+ss = solve((eq2, eq3, eq4, beq1, beq2, beq3, beq4)
+                    , R_E1, R_E, R_F0, R_I, R_L, R_D1, R_D
+                    , dict=True)
+
+This solves to empty.
+
+ss = solve((feq1, beq1, beq2)
+                    , P, R_I, R_L
+                    , dict=True)
+
+
+⎡⎧              2                                                    2
+⎢⎪        -2⋅R_M             -R_M⋅(R_M⋅f(I) + 2⋅r(L))          -2⋅R_M ⋅r(L)
+⎢⎨P: ─────────────────, R_I: ─────────────────────────, R_L: ─────────────────
+⎢⎪   R_M⋅f(I) - 2⋅r(L)           R_M⋅f(I) - 2⋅r(L)           R_M⋅f(I) - 2⋅r(L)
+⎣⎩
+⎫⎤
+⎪⎥
+⎬⎥
+⎪⎥
+⎭⎦
+
+
 
 
 """
