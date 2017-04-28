@@ -120,6 +120,16 @@ P = Symbol('P')
 e0 = Symbol('e0')
 e1 = Symbol('e1')
 F = Symbol('F')
+B_H = Symbol('B_H')
+B1 = Symbol('B1')
+
+
+
+
+
+# Lagrangian Multiplier
+
+η = Symbol('η')
 
 
 # symbols as undefined function
@@ -127,6 +137,113 @@ F = Symbol('F')
 f = symbols("f", cls=Function)
 r = symbols('r', cls=Function)
 
+
+
+
+##################### Objective #######################
+
+"""
+
+# Firm obj =            L
+
+           L
+           ⌠
+-L⋅R_L + P⋅⎮ r(L) dL
+           ⌡
+           0
+"""
+
+
+Firm = P * integrate(r(L), (L, 0, L)) - R_L * L
+
+Firm.diff(L).doit()
+
+# F.O.C,   P⋅r(L) - R_L
+
+
+
+"""
+
+# MMF obj =            L
+
+B_H⋅R_B - B_H⋅R_F0
+
+"""
+
+MMF = R_B * B_H - R_F0 * B_H
+
+MMF.diff(B_H)
+
+# F.O.C,   R_B - R_F0
+
+
+"""
+
+# HH obj
+
+
+
+"""
+
+HH = 1 / (2*P) * (2*(R_F0*θ)*F +(R_D*θ)*D + 2*R_E*E + R_E1*E1 \
+                  + R_D1*θ*(B1*P_B - E1) + R_D*θ*(D-λ*(D+E))
+                  + R_F0*θ*(λ*(D+E)*R_W/P_B) - R_F0*θ*B1)
+
+s_F = W - D - E
+s_D1 = B1*P_B -E1
+
+HH = HH.subs(F,s_F).subs(D1,s_D1)
+
+HH.diff(B1)
+solve(HH.diff(B1),R_F0, dict=True)
+
+# [{R_F0: P_B⋅R_D1}]
+
+HH.diff(E1)
+solve(HH.diff(E1),R_E1, dict=True)
+
+# [{R_E1: R_D1⋅θ}]
+
+HH.diff(E)
+
+"""
+                              R_F0⋅R_W⋅θ⋅λ
+-R_D⋅θ⋅λ + 2⋅R_E - 2⋅R_F0⋅θ + ────────────
+                                  P_B
+──────────────────────────────────────────
+                   2⋅P
+"""
+
+HH.diff(D)
+
+"""
+                                    R_F0⋅R_W⋅θ⋅λ
+R_D⋅θ⋅(-λ + 1) + R_D⋅θ - 2⋅R_F0⋅θ + ────────────
+                                        P_B
+────────────────────────────────────────────────
+                      2⋅P
+
+"""
+
+
+"""
+Bank
+
+
+"""
+
+
+"""
+
+                                    R_F0⋅R_W⋅θ⋅λ
+R_D⋅θ⋅(-λ + 1) + R_D⋅θ - 2⋅R_F0⋅θ + ────────────
+                                        P_B
+────────────────────────────────────────────────
+                      2⋅P
+
+
+
+"""
 ##################### Equations #######################
 
 # Firm, FOC
@@ -148,6 +265,7 @@ eq4 = -2*R_F0*θ + R_D*θ + (1-λ)*R_D*θ + R_F0 * θ * λ * R_W / P_B
 ## Bank, FOC
 
 beq1 = R_I - R_M - P*f(I)
+beq11 = beq1.subs(f(I),F*I)
 beq2 = -2*R_L + R_M*R_M + R_M*R_I
 beq3 = R_M - R_D1*(1-(α*(A+A1)+A1*α)/R_E1)-R_E1*(α*(A+A1)+A1*α)/R_E1
 
@@ -382,7 +500,7 @@ def main():
     ss3 = solve((meq1, feq1, eq1, eq2, eq3, eq4, beq1, beq2, beq3, beq4, beq5)
                 , dict=True)
 
-    beq11 = beq1.subs(f(I),F*I)
+    # beq11 = beq1.subs(f(I),F*I)
 
     ss4 = solve((meq1, feq1, eq1, eq2, eq3, eq4, beq11, beq2, beq3, beq4, beq5)
                 , R_D1, R_E1, R_D, R_E, P_B, R_F0, P, R_L, R_I, R_B , I
@@ -420,6 +538,78 @@ def main():
                   , R_D1, R_E1, R_D, R_E, P_B, R_L
                   , dict=True)
 
+    ss5_8 = solve(( eq2, eq3, eq4, beq3, beq4)
+                  , R_D1, R_E1, R_D, R_E, R_L
+                  , dict=True)
+
+    ss5_9 = solve((eq2, eq3, eq4, beq2, beq3, beq4)
+                  , R_D1, R_E1, R_D, R_E, R_L, R_F0
+                  , dict=True)
+
+    ss5_10 = solve((eq2, eq3, eq4, beq2, beq3, beq4)
+                  , R_D1, R_E1, R_D, R_E, R_L
+                  , dict=True)
+
+    ss5_11 = solve((eq2, eq3, eq4, beq2, beq3)
+                   , R_D1, R_E1, R_D, R_E
+                   , dict=True)
+
+    ss5_12 = solve((eq2, eq3, beq2, beq3)
+                   , R_D1, R_E1, R_E
+                   , dict=True)
+
+    ss5_13 = solve((eq2, eq3, eq4, beq3)
+                   , R_D1, R_E1, R_D, R_E
+                   , dict=True)
+
+    ss5_14 = solve((eq2, eq3, beq3)
+                   , R_D1, R_E1, R_E
+                   , dict=True)
+
+
+    ss5_15 = solve((eq2, eq3, beq2, beq3)
+                   , R_D1, R_E1, R_E, R_L
+                   , dict=True)
+
+    ss5_16 = solve((eq2, eq3, beq3, beq4)
+                   , R_D1, R_E1, R_E, R_D
+                   , dict=True)
+
+    ss5_17 = solve((eq2, eq3, beq2, beq3, beq4)
+                   , R_D1, R_E1, R_E, R_D, R_L
+                   , dict=True)
+
+    ss5_18 = solve((eq2, eq3, eq4, beq2, beq3, beq4)
+                   , R_D1, R_E1, R_E, R_D, R_L, R_F0
+                   , dict=True)
+
+    ss5_19 = solve((eq2, eq3, eq4, beq3, beq4)
+                   , R_D1, R_E1, R_E, R_D, R_F0
+                   , dict=True)
+
+    ss5_20 = solve((eq2, eq3, eq4, beq3)
+                   , R_D1, R_E1, R_E, R_F0
+                   , dict=True)
+
+    ss5_21 = solve(( eq3, eq4,eq1,eq2,beq3,beq4)
+                   , R_E, R_F0,P_B,R_E1,R_D1,R_D
+                   , dict=True)
+
+    ss5_22 = solve((eq3, eq4, eq1, eq2, beq3, beq2)
+                   , R_E, R_F0, P_B, R_E1, R_D1,R_L
+                   , dict=True)
+
+    ss5_23 = solve((eq3, eq4, eq1, eq2, beq3, beq2,beq1,feq1)
+                   , R_E, R_F0, P_B, R_E1, R_D1, R_L,R_I,P
+                   , dict=True)
+
+    ss5_24 = solve((eq3, eq4, eq1, eq2, beq3, beq2, beq1, feq1)
+                   , R_E, R_F0, P_B, R_E1, R_D1, R_L, R_I, P
+                   , dict=True)
+
+
+
+
     ss6 = solve((feq1, eq1, eq2, eq3, eq4, beq1, beq2, beq3, beq4, beq5)
                 , R_D1, R_E1, R_D, R_E, P_B, R_F0, P, R_L, R_I
                 , dict=True)
@@ -432,6 +622,110 @@ def main():
                 , P, R_L, R_I, R_D1, R_E1, R_D, R_E, P_B, R_F0, A, A1
                 , dict=True)
 
+
+    s_R_D = solve((beq4), R_D)
+    s_R_D2 = solve((beq4, eq2), R_D)
+    s_R_D3 = solve((beq4, beq2), R_D, R_L)
+    s_R_D3 = solve((beq4, beq2, eq2)
+                   , R_D, R_L, R_E1
+                   , dict=True)
+    s_R_D3 = solve((beq4, beq2, eq2)
+                   , R_D, R_L, R_E1
+                   , dict=True)
+
+    s_R_D4 = solve((beq4, beq2, eq2, eq3)
+                   , R_D, R_L, R_E1, R_E
+                   , dict=True)
+
+    s_R_D5 = solve((beq4, beq2, eq2, eq3, eq4)
+                   , R_D, R_L, R_E1, R_E, R_F0
+                   , dict=True)
+
+    s_R_D6 = solve((beq4, beq2, eq2, eq3, eq4, eq1)
+                   , R_D, R_L, R_E1, R_E, R_F0, P_B
+                   , dict=True)
+
+    s_R_D7 = solve((beq4, beq2, beq1, eq2, eq3, eq4, eq1)
+                   , R_D, R_L, R_E1, R_E, R_F0, P_B, R_I
+                   , dict=True)
+
+    s_R_D8 = solve((beq4, beq2, eq2, eq3, eq4, eq1, feq1)
+                   , R_D, R_L, R_E1, R_E, R_F0, P_B, P
+                   , dict=True)
+
+    s_R_D9 = solve((beq4, beq2, beq1, eq2, eq3, eq4, eq1, feq1)
+                   , R_D, R_L, R_E1, R_E, R_F0, P_B, R_I, P
+                   , dict=True)
+
+    s_R_D10 = solve((beq4, beq3, beq2, beq1, eq2, eq3, eq4, eq1, feq1)
+                   , R_D, R_L, R_E1, R_E, R_F0, P_B, R_I, P, R_D1
+                   , dict=True)
+
+    s_R_D11 = solve((beq4, beq3)
+                    , R_D, R_D1
+                    , dict=True)
+
+    s_R_D12 = solve((beq4, beq3, eq2)
+                    , R_D, R_D1, R_E1
+                    , dict=True)
+
+    s_R_D13 = solve((beq4, beq3, beq2, eq2)
+                    , R_D, R_D1, R_E1, R_L
+                    , dict=True)
+
+    s_R_D14 = solve((beq4, beq3, eq2, eq3)
+                    , R_D, R_D1, R_E1, R_E
+                    , dict=True)
+
+    s_R_D15 = solve((beq4, beq3, eq2, eq3, eq4)
+                    , R_D, R_D1, R_E1, R_E, R_F0
+                    , dict=True)
+
+    s_R_D16 = solve((beq4, beq3, eq2, eq4)
+                    , R_D, R_D1, R_E1, R_F0
+                    , dict=True)
+
+    s_R_D16 = solve((beq4, beq3, eq2, eq4)
+                    , R_D, R_D1, R_E1, R_F0
+                    , dict=True)
+
+
+
+eqs = [beq4, beq3, beq2, beq1, eq2, eq3, eq4, eq1, feq1]
+vars = [R_D, R_L, R_E1, R_E, R_F0, P_B, R_I, P, R_D1]
+
+
+s_R_D16 = solve((beq4, beq3, beq2, beq1, eq2, eq3, eq1, feq1)
+                    , R_D, R_L, R_E1, R_E, P_B, R_I, P, R_D1
+                    , dict=True)
+
+
+s_R_D16 = solve((beq4, beq3, beq2, beq1, eq2, eq3, eq4, eq1)
+                    , R_D, R_L, R_E1, R_E, P_B, R_I, R_D1, R_F0
+                    , dict=True)
+
+s_R_D17 = solve((beq4, beq3, beq2, beq1, eq2, eq3, feq1)
+                    , R_D, R_L, R_E1, R_E, R_I, P, R_D1
+                    , dict=True)
+
+
+s_R_D17 = solve((beq4, beq3, beq2, beq1, eq1, eq3, feq1)
+                    , R_D, R_L, R_E, R_I, P, R_D1, P_B
+                    , dict=True)
+
+
+s_R_D17 = solve((beq4, beq3, beq2, beq1, eq1, eq3, eq4)
+                    , R_D, R_L, R_E, R_I, R_D1, P_B, R_F0
+                    , dict=True)
+
+
+ss = solve((beq4, beq3, eq1, eq2, eq4)
+                    , R_D, R_D1, P_B, R_F0, R_E1
+                    , dict=True)
+
+ss = solve((beq4, beq3, eq1, eq2)
+                    , R_D, R_E1, R_D1, P_B
+                    , dict=True)
 
 
 
@@ -1246,3 +1540,108 @@ W⋅θ⋅λ⎫⎤
 
 
 """
+
+
+
+"""
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;; ss5_8
+
+ss5_8 = solve(( eq2, eq3, eq4, beq3, beq4)
+                  , R_D1, R_E1, R_D, R_E, R_L
+                  , dict=True)
+
+
+⎡⎧
+⎢⎪
+⎢⎨     -R_F0⋅(2⋅P_B - R_W⋅λ)                A⋅α            2⋅A₁⋅α
+⎢⎪R_D: ──────────────────────, R_D1: -A⋅α + ─── - 2⋅A₁⋅α + ────── + R_M, R_E:
+⎣⎩          P_B⋅(λ - 2)                      θ               θ
+
+
+-R_F0⋅θ⋅(2⋅P_B - R_W⋅λ)
+────────────────────────, R_E1: -A⋅α⋅θ + A⋅α - 2⋅A₁⋅α⋅θ + 2⋅A₁⋅α + R_M⋅θ, R_L:
+      P_B⋅(λ - 2)
+                                                       A₁⋅P_B⋅α⋅θ⋅λ
+ 2⋅A⋅P_B⋅α⋅θ⋅λ - 4⋅A⋅P_B⋅α⋅θ - A⋅P_B⋅α⋅λ + 2⋅A⋅P_B⋅α + ──────────── - A₁⋅P_B⋅α
+                                                            2
+ ─────────────────────────────────────────────────────────────────────────────
+                                                            P_B⋅θ⋅(λ - 2)
+     A₁⋅P_B⋅α⋅λ                           R_F0⋅R_W⋅θ⋅λ⎫⎤
+⋅θ + ────────── - A₁⋅P_B⋅α - P_B⋅R_F0⋅θ + ────────────⎪⎥
+         2                                     2      ⎬⎥
+──────────────────────────────────────────────────────⎪⎥
+                                                      ⎭⎦
+
+
+
+
+"""
+
+
+
+"""
+
+;;;;;;;;;;;;;;;;;; ss5_9
+
+
+ss5_9 = solve((eq2, eq3, eq4, beq2, beq3, beq4)
+                  , R_D1, R_E1, R_D, R_E, R_L, R_F0
+                  , dict=True)
+
+[]
+
+
+
+
+"""
+
+
+
+
+"""
+
+;;;;;;;;;;;;;;;;;;;;;;;; ss5_11
+
+
+
+
+
+⎡⎧     -R_F0⋅(2⋅P_B - R_W⋅λ)         A⋅α + 2⋅A₁⋅α - θ⋅(A⋅α + 2⋅A₁⋅α - R_M)
+⎢⎨R_D: ──────────────────────, R_D1: ─────────────────────────────────────, R_
+⎣⎩          P_B⋅(λ - 2)                                θ
+   -R_F0⋅θ⋅(2⋅P_B - R_W⋅λ)                                                 ⎫⎤
+E: ────────────────────────, R_E1: -A⋅α⋅θ + A⋅α - 2⋅A₁⋅α⋅θ + 2⋅A₁⋅α + R_M⋅θ⎬⎥
+         P_B⋅(λ - 2)                                                       ⎭⎦
+
+
+
+
+"""
+
+
+
+"""
+ss5_12 = solve((eq2, eq3, beq2, beq3)
+                   , R_D1, R_E1, R_E
+                   , dict=True)
+
+
+
+ss5_13 = solve((eq2, eq3, eq4, beq3)
+                   , R_D1, R_E1, R_D, R_E
+                   , dict=True)
+
+
+
+⎡⎧     -R_F0⋅(2⋅P_B - R_W⋅λ)         A⋅α + 2⋅A₁⋅α - θ⋅(A⋅α + 2⋅A₁⋅α - R_M)
+⎢⎨R_D: ──────────────────────, R_D1: ─────────────────────────────────────, R_
+⎣⎩          P_B⋅(λ - 2)                                θ
+   -R_F0⋅θ⋅(2⋅P_B - R_W⋅λ)                                                 ⎫⎤
+E: ────────────────────────, R_E1: -A⋅α⋅θ + A⋅α - 2⋅A₁⋅α⋅θ + 2⋅A₁⋅α + R_M⋅θ⎬⎥
+         P_B⋅(λ - 2)                                                       ⎭⎦
+
+
+
+"""
+
