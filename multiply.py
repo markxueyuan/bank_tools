@@ -795,6 +795,12 @@ ss = solve((beq4, beq3, eq1, eq2)
                     , R_D, R_E1, R_D1, P_B
                     , dict=True)
 
+
+
+ss = solve((eq1, eq2, eq3, eq4, beq1, beq2)
+                    , R_E, R_E1, P_B, R_F0, R_I, R_L
+                    , dict=True)
+
 s_R_E = 3*α*A
 b = [beq4, beq3, eq1, eq2, eq4]
 a = [i.subs(θ,2).subs(R_E,3*α*A) for i in [beq4, beq3, eq1, eq2, eq4]]
@@ -972,6 +978,27 @@ R_E1⋅R_L⎠         R_E1⋅(A⋅α + 2⋅A₁⋅α - R_M)
           ⎭⎦
 
 
+
+
+
+
+"""
+
+
+
+"""
+
+
+ss = solve((eq1, eq2, eq3, eq4, beq1, beq2)
+                    , R_E, R_E1, P_B, R_F0, R_I, R_L
+                    , dict=True)
+
+⎡⎧     -R_D⋅λ + 2⋅R_D + R_D1⋅R_W⋅λ                                    R_D⋅λ
+⎢⎨P_B: ───────────────────────────, R_E: R_D⋅θ, R_E1: R_D1⋅θ, R_F0: - ───── +
+⎣⎩                2⋅R_D1                                                2
+      R_D1⋅R_W⋅λ                          R_M⋅(P⋅f(I) + 2⋅R_M)⎫⎤
+R_D + ──────────, R_I: P⋅f(I) + R_M, R_L: ────────────────────⎬⎥
+          2                                        2          ⎭⎦
 
 
 
