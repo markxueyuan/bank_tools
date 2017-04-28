@@ -229,17 +229,46 @@ R_D⋅θ⋅(-λ + 1) + R_D⋅θ - 2⋅R_F0⋅θ + ──────────
 """
 Bank
 
+"""
 
-to be done
+
+Bank = 1/2 * (R_L*L + R_M**2*M -R_E*E -R_D*D +R_M*A1 -R_D1*D1 \
+              -R_E1*E1 +(R_I-R_M)*I - P*integrate(f(I),(I,0,I))) \
+       + 1/2 * (R_L*L -R_E*E - R_I*(λ*A*R_W-R_M*M) \
+                -R_D*((1-λ)*A-E))
+
+
+s_L = A - M
+s_E = A*α*A / R_E
+s_E1 = A1*α*(A+A1)/R_E1
+s_D = A - s_E
+s_D1 = A1 - s_E1
+
+Bank = Bank.subs(L,s_L).subs(E,s_E).subs(D,s_D).subs(D1,s_D1)
+
+Bank.diff(I).doit()
+s_R_I = solve(Bank.diff(I).doit(), R_I)[0]
+
+
+Bank.diff(M).subs(R_I,s_R_I).simplify()
 
 """
+
+                                  2
+0.5⋅P⋅R_M⋅f(I) - 1.0⋅R_L + 1.0⋅R_M
+
+
+"""
+
+Bank.diff(A1)
+Bank.diff(A)
+
 
 ##################### Equations #######################
 
 # Firm, FOC
 feq1 = P - R_L/r(L)
 
-E1
 # Money Fund, FOC
 
 meq1 = R_B - R_F0
