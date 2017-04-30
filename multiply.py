@@ -15,56 +15,61 @@ init_printing()
 
 # symbols defined with assumptions
 
+
 θ = Symbol('θ', real=True, positive=True)
-R_E1 = Symbol('R_E1', real=True)
-R_D1 = Symbol('R_D1', real=True)
-μ_D1 = Symbol('μ_D1', real=True)
-μ_E1 = Symbol('μ_E1', real=True)
-μ_Bh = Symbol('μ_Bh', real=True)
-R_B = Symbol('R_B', real=True)
-P_B = Symbol('P_B', real=True)
-R_E = Symbol('R_E', real=True)
-R_D = Symbol('R_D', real=True)
-R_W = Symbol('R_W', real=True)
-R_F0 = Symbol('R_F0', real=True)
-μ_λa_ = Symbol('μ_λa_', real=True)
-μ_λb_ = Symbol('μ_λb_', real=True)
-μ_λa = Symbol('μ_λa', real=True)
-μ_λb = Symbol('μ_λb', real=True)
-D = Symbol('D', real=True)
-E = Symbol('E', real=True)
-A = Symbol('A', real=True)
-W = Symbol('W', real=True)
-L = Symbol('L', real=True)
-M = Symbol('M', real=True)
-D1 = Symbol('D1', real=True)
-E1 = Symbol('E1', real=True)
-A1 = Symbol('A1', real=True)
-B_ha = Symbol('B_ha', real=True)
-B_hb = Symbol('B_hb', real=True)
-Bh = Symbol('Bh', real=True)
-B_B = Symbol("B_B", real=True)
-λa = Symbol('λa', real=True)
-λb = Symbol('λb', real=True)
-λ = Symbol('λ', real=True)
-α = Symbol('α', real=True)
-Ma = Symbol('Ma', real=True)
-Mb = Symbol('Mb', real=True)
-R_M = Symbol('R_M', real=True)
-Ba = Symbol('Ba', real=True)
-Bb = Symbol('Bb', real=True)
-I = Symbol('I', real=True)
-Pf = Symbol('Pf', real=True)
+R_E1 = Symbol('R_E1', real=True, positive=True)
+R_D1 = Symbol('R_D1', real=True, positive=True)
+μ_D1 = Symbol('μ_D1', real=True, positive=True)
+μ_E1 = Symbol('μ_E1', real=True, positive=True)
+μ_Bh = Symbol('μ_Bh', real=True, positive=True)
+R_B = Symbol('R_B', real=True, positive=True)
+P_B = Symbol('P_B', real=True, positive=True)
+R_E = Symbol('R_E', real=True, positive=True)
+R_D = Symbol('R_D', real=True, positive=True)
+R_W = Symbol('R_W', real=True, positive=True)
+R_F0 = Symbol('R_F0', real=True, positive=True)
+μ_λa_ = Symbol('μ_λa_', real=True, positive=True)
+μ_λb_ = Symbol('μ_λb_', real=True, positive=True)
+μ_λa = Symbol('μ_λa', real=True, positive=True)
+μ_λb = Symbol('μ_λb', real=True, positive=True)
+D = Symbol('D', real=True, positive=True)
+E = Symbol('E', real=True, positive=True)
+A = Symbol('A', real=True, positive=True)
+W = Symbol('W', real=True, positive=True)
+L = Symbol('L', real=True, positive=True)
+M = Symbol('M', real=True, positive=True)
+D1 = Symbol('D1', real=True, positive=True)
+E1 = Symbol('E1', real=True, positive=True)
+A1 = Symbol('A1', real=True, positive=True)
+B_ha = Symbol('B_ha', real=True, positive=True)
+B_hb = Symbol('B_hb', real=True, positive=True)
+Bh = Symbol('Bh', real=True, positive=True)
+B_B = Symbol("B_B", real=True, positive=True)
+λa = Symbol('λa', real=True, positive=True)
+λb = Symbol('λb', real=True, positive=True)
+λ = Symbol('λ', real=True, positive=True)
+α = Symbol('α', real=True, positive=True)
+Ma = Symbol('Ma', real=True, positive=True)
+Mb = Symbol('Mb', real=True, positive=True)
+R_M = Symbol('R_M', real=True, positive=True)
+Ba = Symbol('Ba', real=True, positive=True)
+Bb = Symbol('Bb', real=True, positive=True)
+I = Symbol('I', real=True, positive=True)
+Pf = Symbol('Pf', real=True, positive=True)
 R_I = Symbol('R_I', real=True)
-R_L = Symbol('R_L', real=True)
-μ_ma = Symbol('μ_ma', real=True)
-μ_Ba = Symbol('μ_Ba', real=True)
-μ_Bb = Symbol('μ_Bb', real=True)
-μ_B = Symbol('μ_B', real=True)
-P_B1 = Symbol('P_B1', real=True)
-B = Symbol('B', real=True)
-P = Symbol('P', real=True)
-r = Symbol('r', real=True)
+R_L = Symbol('R_L', real=True, positive=True)
+μ_ma = Symbol('μ_ma', real=True, positive=True)
+μ_Ba = Symbol('μ_Ba', real=True, positive=True)
+μ_Bb = Symbol('μ_Bb', real=True, positive=True)
+μ_B = Symbol('μ_B', real=True, positive=True)
+P_B1 = Symbol('P_B1', real=True, positive=True)
+B = Symbol('B', real=True, positive=True)
+P = Symbol('P', real=True, positive=True)
+e0 = Symbol('e0', real=True)
+e1 = Symbol('e1', real=True)
+F = Symbol('F', real=True, positive=True)
+B_H = Symbol('B_H', real=True, positive=True)
+B1 = Symbol('B1', real=True, positive=True)
 
 # symbols with default assumptions (complex field)
 
@@ -769,8 +774,12 @@ s_R_D17 = solve((beq4, beq3, beq2, beq1, eq1, eq3, eq4)
                     , R_D, R_L, R_E, R_I, R_D1, P_B, R_F0
                     , dict=True)
 
-
+eq_extr = R_F0 - P_B * R_D1
 ss = solve((beq4, beq3, eq1, eq2, eq4)
+                    , R_D, R_D1, P_B, R_F0, R_E1
+                    , dict=True)
+
+ss = solve((beq4, beq3, eq2, eq4, eq_extr)
                     , R_D, R_D1, P_B, R_F0, R_E1
                     , dict=True)
 
@@ -1895,6 +1904,28 @@ _M ⋅R_W⋅θ ⋅λ  + R_M ⋅R_W ⋅θ ⋅λ
 ⋅θ, R_I: P⋅f(I) + R_M, R_L: ────────────────────⎪⎥
                                      2          ⎭⎦
 
+
+
+
+ss = solve((feq1, eq1, eq2, eq3, beq1, beq2, beq3, beq4)
+                    , P_B, R_E1, R_E, R_D1, R_D, R_I, R_L, P
+                    , dict=True)
+
+
+It is solvable, the solution is very long.
+
+
+R_D1:
+
+A⋅α + 2⋅A₁⋅α - θ⋅(A⋅α + 2⋅A₁⋅α - R_M)
+─────────────────────────────────────
+                  θ
+
+
+
+ss = solve((eq1, eq2, eq3, eq4, beq3, beq4)
+                    , P_B, R_E1, R_E, R_D1, R_D, R_F0
+                    , dict=True)
 
 
 """
